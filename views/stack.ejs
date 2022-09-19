@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stack</title>
+</head>
+<body>
+    <h1>Stack</h1>
+    <h2>
+        <span>stack size</span>
+        <span id="stackSize"></span>
+    </h2>
+    <h2>
+        <span>set stack size</span>
+        <form action="/stack/set-size" method="post">
+            <input type="number" name="size">
+            <br>
+            <button type="submit">set</button>
+        </form>
+    </h2>
+    <h2>
+        <span>elements</span>
+        <%= data.message %>
+    </h2>
+    <h2>
+        <span>push</span>
+        <form action="/stack/push" method="post">
+            <input type="number" name="element">
+            <br>
+            <button type="submit">push</button>
+        </form>
+    </h2>
+    <h2>
+        <span>pop</span>
+        <button onclick="pop()">pop</button>
+    </h2>
+    <script>
+        function pop() {
+            fetch('http://localhost:5000/stack/pop', {
+                method: 'DELETE'
+            })
+            .then((response) => response.json())
+            .then((data) => console.log(data));
+        }
+        function getStackSize() {
+            fetch('http://localhost:5000/stack/get-stack-size')
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data)
+                document.getElementById('stackSize').innerText = data.stackSize;
+            })
+        }
+        getStackSize()
+    </script>
+</body>
+</html>

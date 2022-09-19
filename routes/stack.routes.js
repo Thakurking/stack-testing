@@ -11,4 +11,6 @@ stackRouter.delete('/pop', stackController.delete);
 
 stackRouter.get('/display', stackController.display);
 
+stackRouter.get('/get-stack-size', stackController.getStackSize);
+
 module.exports = stackRouter;

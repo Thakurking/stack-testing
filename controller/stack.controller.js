@@ -12,7 +12,7 @@ function push(element) {
   } else {
     top = top + 1;
     stack[top] = element;
-    return stack;
+    return {message: stack, status: true};
   }
 }
 
@@ -30,7 +30,7 @@ function display() {
   if (stack.length === 0) {
     return { message: "Stack empty", status: false };
   }
-  return stack;
+  return { message: stack, staus: true };
 }
 
 exports.setsize = async (req, res) => {
@@ -48,7 +48,10 @@ exports.push = async (req, res) => {
       return res.json({ message: "Stack size is not set", status: false });
     }
     const data = push(req.body.element);
-    return res.status(200).json({ message: data, status: true });
+    if(!data.status) {
+      return res.json(data);
+    }
+    return res.status(200).json(data);
   } catch (error) {
     console.log(error);
     return res.json({ message: error, staus: false });
@@ -58,7 +61,7 @@ exports.push = async (req, res) => {
 exports.delete = async (req, res) => {
   try {
     const data = pop();
-    return res.status(200).json({ message: data, status: true });
+    return res.status(200).json(data);
   } catch (error) {
     return res.json({ message: error, status: false });
   }
@@ -67,8 +70,17 @@ exports.delete = async (req, res) => {
 exports.display = async (req, res) => {
   try {
     const data = display();
-    return res.status(200).json({ message: data, status: true });
+    return res.status(200).json(data);
   } catch (error) {
     return res.json({ message: error, status: false });
   }
 };
+
+
+exports.getStackSize = async (req, res) => {
+  try {
+    return res.json({ stackSize: stack_size, staus: true});
+  } catch (error) {
+    return res.json({message: error, status: false});
+  }
+}
